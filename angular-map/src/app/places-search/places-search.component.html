@@ -1,3 +1,5 @@
-<input type="text" [(ngModel)]="address"  (setAddress)="getAddress($event)" googleplace/>
+<input placeholder="search for location" autocorrect="off" 
+autocapitalize="off" spellcheck="off" type="text" class="form-control" #search >
+  
+<app-map [lat]="latitude" [lng]="longitude"></app-map>
 
-<app-map [lat]="lat" [lng]="lng"></app-map>

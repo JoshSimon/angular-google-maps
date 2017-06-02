@@ -6,11 +6,10 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { PlacesSearchComponent } from './places-search/places-search.component';
-import { MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader } from '@agm/core';
 import {} from '@types/googlemaps';
-import {GooglePlaceModule} from "angular2-google-place"
 
 
 @NgModule({
@@ -19,17 +18,15 @@ import {GooglePlaceModule} from "angular2-google-place"
     MapComponent,
     PlacesSearchComponent
   ],
-  imports: [
-     AgmCoreModule.forRoot({
-      libraries: ["places"]
-    }),    
+  imports: [ 
     BrowserModule,
     FormsModule,
     HttpModule,
      AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCJr_Ionaem4V4-VmYH5Gf6uv6Yy8IBZi8'
+      apiKey: 'AIzaSyCJr_Ionaem4V4-VmYH5Gf6uv6Yy8IBZi8',
+      libraries: ["places"]
     }),
-    GooglePlaceModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

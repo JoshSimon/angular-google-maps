@@ -1,6 +1,17 @@
 # AngularMap
 
+## Getting started - dependency installation
+1) Update npm - `npm i -g npm@latest`
+2) Install dependcies - `npm install`
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.6.
+
+## Troubleshooting npm
+
+If you should have problems with npm due to the new version of ^5.0.0, verify your cache or (only if necessary) clean your cache,
+see https://docs.npmjs.com/getting-started/using-a-package.json 
+
+Maybe your registry is not up to date - `npm config set registry https://registry.npmjs.org/`
 
 ## Development server
 
@@ -26,3 +37,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Adding dependencies
+
+If you wish to make an npm 

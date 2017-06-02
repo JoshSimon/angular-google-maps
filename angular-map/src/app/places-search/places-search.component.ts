@@ -1,9 +1,7 @@
 import { ElementRef, Component, NgModule, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
-import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
-
-
+import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-places-search',
@@ -13,8 +11,8 @@ import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 
 export class PlacesSearchComponent implements OnInit {
 
-  public lat: number;
-  public lng: number;
+  public latitude: number = 19.0000;
+  public longitude: number = 14.000;
 
   public zoom: number;
   google: any;
@@ -27,35 +25,29 @@ export class PlacesSearchComponent implements OnInit {
     private ngZone: NgZone
   ) {}
   
-  ngOnInit() {
-
-    
-   
-    
-    //load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
+  ngOnInit(){
+  this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["regions"]
+        types: ["address"]
       });
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-  
+
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
-          
+
           //set latitude, longitude and zoom
-          this.lat = place.geometry.location.lat();
-          this.lng = place.geometry.location.lng();
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
           this.zoom = 12;
         });
       });
     });
   }
-  
  
 }
 
