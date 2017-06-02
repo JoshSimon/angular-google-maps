@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-map',
@@ -7,16 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapComponent {
 
-  title: string = 'My first angular2-google-maps project';
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+ @Input('lat') lat: number;
+ @Input('lng') lng : number;
 
-  thingy: any;
-
-  watchDrag(thing: any){
-   this.lat = thing.coords.lat;
-   this.lng = thing.coords.lng
+  constructor() {
+    if (this.lat == null && this.lng ==  null) {
+      this.lat= 51.673858;
+      this.lng= 7.815982;
+    }
   }
+
+  watchDrag(eventListenerObject: any){
+   this.lat = eventListenerObject.coords.lat
+   this.lng = eventListenerObject.coords.lng
+  }
+
 
 }
 
