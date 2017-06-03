@@ -1,4 +1,4 @@
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zm">
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zm" (change)="watchPlaces($event)">
   <agm-marker (dragEnd)="watchDrag($event)" [latitude]="lat" [longitude]="lng" [markerDraggable]=true></agm-marker>
 </agm-map>
 <input type="number" [(ngModel)]="lat" (ngModelChange)="lowLevelChangeOfLat($event)">

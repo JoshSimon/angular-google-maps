@@ -22,6 +22,9 @@ export class MapComponent {
    * Sending the latest coordinates out
    */
   @Output() acutalLatLng: EventEmitter<any> = new EventEmitter();
+    ngOnChanges() {
+          this.acutalLatLng.emit([this.lat, this.lng])
+    }
 
   /**
    * WATCH FOR MARKER DRAG
@@ -34,6 +37,17 @@ export class MapComponent {
     this.acutalLatLng.emit([this.lat, this.lng])
   }
 
+  /**
+   * WATCH FOR PLACES SEARCH
+   * 
+   * if the user selects a result from the places results
+   */
+   watchPlaces(eventListenerObject: any) {
+     console.log('event: ' + eventListenerObject )
+    /*this.lat = eventListenerObject.coords.lat;
+    this.lng = eventListenerObject.coords.lng;
+    this.acutalLatLng.emit([this.lat, this.lng])*/
+  }
   /**
    * EVENT EMITTER
    * 
