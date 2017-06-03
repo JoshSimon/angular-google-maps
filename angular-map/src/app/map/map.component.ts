@@ -29,8 +29,9 @@ export class MapComponent {
    * if the user drags the marker, it will update the coordinates
    */
   watchDrag(eventListenerObject: any) {
-    this.lat = eventListenerObject.coords.lat
-    this.lng = eventListenerObject.coords.lng
+    this.lat = eventListenerObject.coords.lat;
+    this.lng = eventListenerObject.coords.lng;
+    this.acutalLatLng.emit([this.lat, this.lng])
   }
 
   /**
@@ -40,15 +41,14 @@ export class MapComponent {
    */
 
   lowLevelChangeOfLat(value: number) {
-       this.acutalLatLng.emit([value, this.lng]);
-console.log(value)
-//    console.log(this.acutalLatLng[0])
+    this.lat = value;
+        this.acutalLatLng.emit([this.lat, this.lng])
+
   }
   lowLevelChangeOfLng(value: number) {
-        this.acutalLatLng.emit([this.lat, value]);
-console.log(value)
+    this.lng = value;
+        this.acutalLatLng.emit([this.lat, this.lng])
 
-  //  console.log(this.acutalLatLng[1])
 
   }
 }
