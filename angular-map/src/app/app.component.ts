@@ -1,5 +1,5 @@
 
-import { Component } from "@angular/core";
+import { Component, OnChanges, SimpleChanges } from "@angular/core";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,7 +23,10 @@ export class AppComponent {
 
   actualCoordinates(information: number[]) {
     this.shippingCoordinates[0] = information[0];
-    this.shippingCoordinates[1] = information[1]
+    this.shippingCoordinates[1] = information[1];
+    this.latitude = information[0];
+    this.longitude = information[1];
   }
+
 
 }
