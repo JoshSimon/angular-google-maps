@@ -1,5 +1,4 @@
 import { Component, NgZone, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ReverseGeocodingService } from './reverse-geocoding.service';
 
 @Component({
   selector: 'app-reverse-geocoding',
@@ -34,7 +33,7 @@ export class ReverseGeocodingComponent {
    * which will be handed to the service later on  
    */
   piece: any;
-  constructor(private service: ReverseGeocodingService, private ngZone: NgZone) {
+  constructor( private ngZone: NgZone) {
     this.latLng = { lat: this.lat, lng: this.lng };
   }
 
@@ -44,63 +43,43 @@ export class ReverseGeocodingComponent {
    * if the coordinate input changes, the service will be called
    * to hand back a new result
    */
-  ngOnChanges(change: SimpleChanges) {
-    this.latLng = { lat: this.lat, lng: this.lng };
+  // ngOnChanges() {
+  //   this.latLng = { lat: this.lat, lng: this.lng };
 
+  //   this.ngZone.run(() => {
+  //     this.place = this.service.geocode(this.latLng);
+  //     let finished // shit has to stay
 
-    this.ngZone.run(() => {
+  //     let subscription = this.place.subscribe(
+  //       value => {
+  //         value = value[0].address_components;
+  //         let worked = false;
+  //         value.forEach(element => {
+  //           if (element.types[0] == "locality") {
+  //             this.piece = element.long_name;
+  //             worked = true;
+  //           }
+  //         });
+  //         if (worked === false) {
+  //           value.forEach(element => {
+  //             if (element.types[0] == "country") {
+  //               this.piece = element.long_name;
+  //               worked = true;
+  //             }
+  //           });
+  //         };
+  //         console.log(worked);
+  //         if (worked === false) {
+  //           console.log('NOPE' + this.piece);
+  //           this.piece = 'nope';
+  //         };
+  //       },
+  //       error => console.log('ERRÖRÄ'),
+  //       () => finished = true
+  //     );
 
-
-      this.place = this.service.geocode(this.latLng);
-      let finished // shit has to stay
-
-      let subscription = this.place.subscribe(
-        value => {
-          value = value[0].address_components;
-          let worked = false;
-          value.forEach((element, index) => {
-
-            if (element.types[0] == "locality") {
-              this.piece = element.long_name;
-              worked = true;
-              console.log('LOCAL' + this.piece);
-
-           
-            }
-               if ( index == value.length) {
-                console.log('on the end ' + worked)
-                value.forEach(element => {
-
-                  if (element.types[0] == "country") {
-                    this.piece = element.long_name;
-                    worked = true;
-                    console.log('LOCAL' + this.piece)
-                  }
-
-                })
-                if (worked = false) {
-                  console.log('NOPE' + this.piece)
-                  this.piece = 'nope'
-                };
-              }
-          });
-
-
-
-        },
-        error => console.log('ERRÖRÄ'),
-        () => finished = true
-      );
-
-    });
-
-    console.log('geocode result' + this.place)
-    this.newGeocodePlace.emit(this.place);
-
-
-
-  }
-
-
+  //   });
+  //   this.newGeocodePlace.emit(this.piece);
+  // }
 
 }

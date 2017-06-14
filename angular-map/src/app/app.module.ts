@@ -11,7 +11,7 @@ import { PlacesSearchComponent } from './places-search/places-search.component';
 import { MapsAPILoader } from '@agm/core';
 import {} from '@types/googlemaps';
 import { ReverseGeocodingComponent } from './reverse-geocoding/reverse-geocoding.component';
-import { ReverseGeocodingService } from './reverse-geocoding/reverse-geocoding.service'
+import { ReverseGeocodingService } from './map/reverse-geocoding.service'
 
 @NgModule({
   declarations: [

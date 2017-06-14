@@ -13,7 +13,7 @@ export class AppComponent {
   private longitude: number = 9.78125;
   public zoom: number = 5;
   private shippingCoordinates: number[] = [this.latitude, this.longitude]
-
+  private whereAmI: string;
 
   newCoordinates(information: number[]) {
     this.latitude = information[0];
@@ -22,11 +22,17 @@ export class AppComponent {
   }
 
   actualCoordinates(information: number[]) {
+    console.log('update')
     this.shippingCoordinates[0] = information[0];
     this.shippingCoordinates[1] = information[1];
     this.latitude = information[0];
     this.longitude = information[1];
   }
 
+  newPlace(name: string) {
+    console.log('late update');
+    this.whereAmI = name;
+    console.log('out of the app component - ' + this.whereAmI)
+  }
 
 }

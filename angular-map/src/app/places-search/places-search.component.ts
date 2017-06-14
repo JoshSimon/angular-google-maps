@@ -1,4 +1,4 @@
-import { ElementRef, Component, NgModule, NgZone, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ElementRef, Component, NgModule, NgZone, OnInit, ViewChild, Output, Input, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { AgmCoreModule, MapsAPILoader } from '@agm/core';
@@ -18,6 +18,8 @@ export class PlacesSearchComponent implements OnInit {
   private longitude: number;
   private zoom: number;
   google: any;
+
+  @Input() place: string;
 
   /**
    * EVENT EMITTER
@@ -68,6 +70,10 @@ export class PlacesSearchComponent implements OnInit {
       });
     });
   }
+
+  ngOnChanges(change: SimpleChanges) {
+    console.log('CHANGED' +this.place)
+}
 
 }
 
