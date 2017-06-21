@@ -8,45 +8,42 @@ import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 
     google: any;
     geocoder: google.maps.Geocoder;
+    place: any;
 
-    constructor(private mapsAPILoader: MapsAPILoader
-    ) {
-        console.log('in the constructor')
+
+
+    constructor(private mapsAPILoader: MapsAPILoader) {
         try {
             this.mapsAPILoader.load().then(() => {
                 this.geocoder = new google.maps.Geocoder();
             })
         } catch (e) {
-            console.log(e)
-        }
+            console.error(e)
+        };
+
     }
-
-
 
     /**
-     * Reverse geocoding by location.
+     * Reverse geocoding by location
+     * makes a promise out of the Google geocode API response
      * 
-     * Wraps the Google Maps API geocoding service into an observable.
-     * 
-     * @param latLng Location
-     * @return An observable of GeocoderResult which can be subscribed to
+     * @param latLng Location object consisting of latitude and longitude
+     * @return promise that resolves with payload or rejects with status
      */
-    geocode(latLng: google.maps.LatLng): any {
-        
-        console.log('geocode function called', latLng);
-        return this.geocoder.geocode({ 'location': latLng }, (
-
-            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-                
-                if (status === google.maps.GeocoderStatus.OK) {
-                    console.log('succesfull response ' + results[0].address_components[0].long_name)
-                    return results[0]; 
-                } else {
-                    console.log('Geocoding service: geocoder failed due to: ' + status);
-                    return 'nope';
+    geocode(latLng: google.maps.LatLng): Promise<google.maps.GeocoderResult[]> {
+        return new Promise((resolve, reject) => {
+            this.geocoder.geocode({ 'location': latLng }, (
+                (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        resolve(results);
+                    } else {
+                        reject(status)
+                    }
                 }
-                
-            }));
-
+            ))
+        })
     }
 }
+
+
+

@@ -70,11 +70,4 @@ export class PlacesSearchComponent implements OnInit {
       });
     });
   }
-
-  ngOnChanges(change: SimpleChanges) {
-    console.log('CHANGED' +this.place)
 }
-
-}
-
-

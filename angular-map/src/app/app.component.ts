@@ -22,7 +22,6 @@ export class AppComponent {
   }
 
   actualCoordinates(information: number[]) {
-    console.log('update')
     this.shippingCoordinates[0] = information[0];
     this.shippingCoordinates[1] = information[1];
     this.latitude = information[0];
@@ -30,9 +29,7 @@ export class AppComponent {
   }
 
   newPlace(name: string) {
-    console.log('late update');
     this.whereAmI = name;
-    console.log('out of the app component - ' + this.whereAmI)
   }
 
 }

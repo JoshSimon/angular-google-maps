@@ -1,12 +1,4 @@
 <app-places-search (newPlaceLatLng)="newCoordinates($event)" [place]="whereAmI"></app-places-search>
-<app-reverse-geocoding [lat]="latitude" [lng]="longitude" (newGeocodePlace)="newPlace($event)" id="mine"></app-reverse-geocoding>
 <app-map [lat]="latitude" [lng]="longitude" [zm]="zoom" (actualPlace)="newPlace($event)" (acutalLatLng)="actualCoordinates($event)"  ></app-map>
 
 
-
-<h4>Vlaues by places search</h4>
-<p>Latitude {{latitude}} </p>
-<p>Longitude {{longitude}}</p>
-
-<h4>Actual values</h4>
-<p>{{shippingCoordinates | json}}</p>

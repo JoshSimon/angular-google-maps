@@ -41,8 +41,50 @@ export class MapComponent {
 
   ngOnChanges() {
     this.acutalLatLng.emit([this.lat, this.lng]);
-    this.reverseGeoCoding(this.lat, this.lng); //get the newest coordinates and reverse geocode
-    this.actualPlace.emit(this.place); //emit geocode result
+    //get the newest coordinates and reverse geocode
+    this.reverseGeoCoding(this.lat, this.lng).then(
+      (success) => {
+        let place; //stores the desired reverse geocoded location name
+        let worked = false; // boolean to check if a desired result is found or not
+
+        /**
+         * to understand the following logic, please refer to https://developers.google.com/maps/documentation/geocoding/intro
+         * to see an example of the payload
+         * 
+         * the main goal is to have a name for every spot on the map
+         * if there is no local name, the country name is shown
+         * and if the place is outside of any country
+         * 'nowhere' is displayed
+         */
+        success[0].address_components.forEach(element => {
+          if (element.types[0] == "locality") {
+            worked = true;
+            place = element.long_name;
+          }
+        });
+        if (worked === false) {
+          success[0].address_components.forEach(element => {
+            if (element.types[0] == "country") {
+              worked = true;
+              place = element.long_name;
+            }
+          });
+        };
+        if (worked === false) {
+          place = 'nowhere';
+        };
+        if (place === undefined) {
+          console.error('geocode API service returned a place called "undefined"');
+        } else {
+          this.callback(place);
+        }
+      },
+      (error) => {
+        console.error('geocode API throws the following error ' + error);
+        if (error == 'ZERO_RESULTS') {this.callback('nowhere')} // if there is no country or local name
+      }
+    );
+
   }
 
   /**
@@ -72,55 +114,21 @@ export class MapComponent {
     this.lng = eventListenerObject.coords.lng;
     this.acutalLatLng.emit([this.lat, this.lng])*/
   }
-  /**
-   * EVENT EMITTER
-   * 
-   * getting the actuals coordinates from the component
-   */
+
   lowLevelChangeOfLat(value: number) {
     this.lat = value;
     this.acutalLatLng.emit([this.lat, this.lng])
-
   }
   lowLevelChangeOfLng(value: number) {
     this.lng = value;
     this.acutalLatLng.emit([this.lat, this.lng])
   }
   reverseGeoCoding(latu: number, lngi: number) {
-    this.latLng = { lat: latu, lng: lngi }; //object that is required to feed the geocode function of the GeoCode class (see reverse-geocoding.service)
-    // ngZone to run the api call inside the angular zone for the behaviour of the asynchronous api response
-    
-      let reverseGeocodeResult = this.service.geocode(this.latLng);
-      let finished; // status variable
-      let placeString; // variable that holds the result
-      /* subscribing to the observable of the geocode service */
-      console.log('result in the component ' + reverseGeocodeResult); 
-      this.result = reverseGeocodeResult;
-      let helper = reverseGeocodeResult.address_components;
-      let worked = false;
-      helper.forEach(element => {
-        if (element.types[0] == "locality") {
-          placeString = element.long_name;
-          console.log(placeString)
-          worked = true;
-        }
-      });
-      if (worked === false) {
-        helper.forEach(element => {
-          if (element.types[0] == "country") {
-            placeString = element.long_name;
-                      console.log(placeString)
-
-            worked = true;
-          }
-        });
-      };
-      if (worked === false) {
-        placeString = 'nowhere';
-      };
-      this.place = placeString
-      console.log('out of the map component - ' + this.place)
-    
+    this.latLng = { lat: latu, lng: lngi }; //object that is required to feed the geocode function of the GeoCode class (see reverse-geocoding.service)    
+    return this.service.geocode(this.latLng);
   }
-
+  callback(input: any) {
+    this.place = input;
+    this.actualPlace.emit(this.place)
+  }
 }
