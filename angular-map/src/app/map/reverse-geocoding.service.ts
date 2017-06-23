@@ -7,22 +7,18 @@ import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 @Injectable() export class ReverseGeocodingService {
 
     google: any;
-    geocoder: google.maps.Geocoder;
     place: any;
 
 
 
     constructor(private mapsAPILoader: MapsAPILoader) {
-        try {
-            this.mapsAPILoader.load().then(() => {
-                this.geocoder = new google.maps.Geocoder();
-            })
-        } catch (e) {
-            console.error(e)
-        };
-
     }
 
+    constructGeocodeInstance() {
+       return this.mapsAPILoader.load().then(() => {
+            return new google.maps.Geocoder();
+        })
+    }
     /**
      * Reverse geocoding by location
      * makes a promise out of the Google geocode API response
@@ -30,13 +26,15 @@ import { AgmCoreModule, MapsAPILoader } from '@agm/core';
      * @param latLng Location object consisting of latitude and longitude
      * @return promise that resolves with payload or rejects with status
      */
-    geocode(latLng: google.maps.LatLng): Promise<google.maps.GeocoderResult[]> {
+    geocode(latLng: google.maps.LatLng, geocoder: google.maps.Geocoder): Promise<google.maps.GeocoderResult[]> {
         return new Promise((resolve, reject) => {
-            this.geocoder.geocode({ 'location': latLng }, (
+            geocoder.geocode({ 'location': latLng }, (
                 (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
                     if (status === google.maps.GeocoderStatus.OK) {
+                        console.log('results from the geocode function out of the service: ' + results);
                         resolve(results);
                     } else {
+                        console.log(status)
                         reject(status)
                     }
                 }
